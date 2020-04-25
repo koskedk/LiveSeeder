@@ -24,27 +24,10 @@ trigger:
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
-        arguments: '--configuration $(BuildConfiguration)'
+        arguments: '--configuration $(buildConfiguration)'
     
     - task: DotNetCoreCLI@2
-      displayName: "dotnet test"
       inputs:
-        command: 'test'
-
-    - task: DotNetCoreCLI@2
-      displayName: "dotnet publish"
-      inputs:
-        command: 'publish'
-        publishWebProjects: True
-        arguments: '-c $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-        zipAfterPublish: True
-    
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)'
-        artifact: 'drop'
-        publishLocation: 'pipeline'
-    
-# 
-#export DAPPER_LICENSENAME=""
-#export DAPPER_LICENSEKEY=""
+        command: test
+        projects: '**/*Tests/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
