@@ -11,8 +11,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
-  DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
 
 steps:
 - task: NuGetToolInstaller@1
@@ -35,7 +33,10 @@ steps:
     command: test
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
-
+  env:
+    DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
+    DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
+    
 - task: DotNetCoreCLI@2
   displayName: "dotnet publish"
   inputs:
