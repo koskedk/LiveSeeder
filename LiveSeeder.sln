@@ -1,8 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveSeeder", "src\LiveSeeder\LiveSeeder.csproj", "{A0465BDD-0104-400E-90E2-47F42F812B26}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSeeder", "src\LiveSeeder\LiveSeeder.csproj", "{A0465BDD-0104-400E-90E2-47F42F812B26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveSeeder.Tests", "test\LiveSeeder.Tests\LiveSeeder.Tests.csproj", "{605FA557-9DCC-4209-93A1-B45A0AAB9FE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSeeder.Tests", "test\LiveSeeder.Tests\LiveSeeder.Tests.csproj", "{605FA557-9DCC-4209-93A1-B45A0AAB9FE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E8006BB2-3F16-401D-9E8E-6AF4D7A53668}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{227030C0-53D5-4886-84EE-564F329F06F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +25,15 @@ Global
 		{605FA557-9DCC-4209-93A1-B45A0AAB9FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{605FA557-9DCC-4209-93A1-B45A0AAB9FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{605FA557-9DCC-4209-93A1-B45A0AAB9FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A0465BDD-0104-400E-90E2-47F42F812B26} = {E8006BB2-3F16-401D-9E8E-6AF4D7A53668}
+		{605FA557-9DCC-4209-93A1-B45A0AAB9FE5} = {227030C0-53D5-4886-84EE-564F329F06F8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6EF53C7-E673-403C-847E-803B72F31E65}
 	EndGlobalSection
 EndGlobal
