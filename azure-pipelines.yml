@@ -37,9 +37,3 @@ steps:
   env:
     DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
     DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
