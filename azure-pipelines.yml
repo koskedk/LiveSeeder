@@ -11,6 +11,8 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
+  DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
 
 steps:
 - task: NuGetToolInstaller@1
