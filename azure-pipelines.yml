@@ -45,3 +45,6 @@ trigger:
         artifact: 'drop'
         publishLocation: 'pipeline'
     
+# 
+#export DAPPER_LICENSENAME=""
+#export DAPPER_LICENSEKEY=""
