@@ -11,11 +11,14 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  Major: '1'
+  Minor: '0'
+  Patch: '0'
 
 steps:
 - task: NuGetToolInstaller@1
   inputs:
-    versionSpec: 
+    versionSpec:
 
 - task: NuGetCommand@2
   inputs:
@@ -27,7 +30,7 @@ steps:
   displayName: Build
   inputs:
     arguments: '--configuration $(BuildConfiguration)'
-    
+
 - task: DotNetCoreCLI@2
   displayName: Test
   inputs:
@@ -37,3 +40,21 @@ steps:
   env:
     DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
     DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
+
+- task: NuGetCommand@2
+    inputs:
+      command: pack
+      versioningScheme: byPrereleaseNumber
+      majorVersion: '$(Major)'
+      minorVersion: '$(Minor)'
+      patchVersion: '$(Patch)'
+
+- task: NuGetAuthenticate@0
+  inputs:
+    nuGetServiceConnections: 'nuget.org'
+- task: NuGetCommand@2
+  inputs:
+    command: push
+    nuGetFeedType: external
+    versioningScheme: byEnvVar
+    versionEnvVar: <VersionVariableName>

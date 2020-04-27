@@ -26,7 +26,7 @@ namespace LiveSeeder.Tests.Core
         [Test]
         public void should_Add()
         {
-            TestDbContext.Add<TestCar>(typeof(TestCar).Assembly).Wait();
+            TestDbContext.SeedAdd<TestCar>(typeof(TestCar).Assembly).Wait();
             var testCars = TestDbContext.TestCars.ToList();
             Assert.True(testCars.Any());
         }
@@ -34,7 +34,7 @@ namespace LiveSeeder.Tests.Core
         [Test]
         public void should_AddOrUpdate()
         {
-            TestDbContext.AddOrUpdate<Company>(typeof(Company).Assembly).Wait();
+            TestDbContext.SeedAddOrUpdate<Company>(typeof(Company).Assembly).Wait();
             var companies = TestDbContext.Companies.ToList();
             Assert.AreEqual("Microsoft Azure", companies.First(x => x.Id == 1).Name);
             Assert.AreEqual("Netflix Stream", companies.First(x => x.Id == 3).Name);
@@ -44,7 +44,7 @@ namespace LiveSeeder.Tests.Core
         [Test]
         public void should_Merge()
         {
-            TestDbContext.Merge<County>(typeof(County).Assembly).Wait();
+            TestDbContext.SeedMerge<County>(typeof(County).Assembly).Wait();
             var companies = TestDbContext.Counties.ToList();
             Assert.AreEqual("Nairobi", companies.First(x => x.Id == 47).Name);
             Assert.AreEqual("Bomet", companies.First(x => x.Id == 22).Name);
@@ -53,7 +53,7 @@ namespace LiveSeeder.Tests.Core
         [Test]
         public void should_Clear()
         {
-            TestDbContext.Clear<Car>().Wait();
+            TestDbContext.SeedClear<Car>().Wait();
             var cars = TestDbContext.Cars.ToList();
             Assert.False(cars.Any());
         }

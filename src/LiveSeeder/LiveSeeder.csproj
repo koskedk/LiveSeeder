@@ -2,6 +2,16 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
+        <Description>Entity Framework Core or IDbConnection extentions library for seeding your database with data.Allows adding, updating and clearing of data. Requires Z.Dapper.Plus</Description>
+        <Copyright>Copyright Koske Kimutai</Copyright>
+        <PackageId>LiveSeeder</PackageId>
+        <Authors>Koske Kimutai</Authors>
+        <PackageTags>seeding;seed;seeder;dbcontext seed;idbconnection seed;database seed;efcore seeder</PackageTags>
+        <PackageProjectUrl>https://github.com/koskedk/LiveSeeder</PackageProjectUrl>
+        <RepositoryUrl>git://github.com/koskedk/LiveSeeder</RepositoryUrl>
+        <PackageIconUrl>https://github.com/koskedk/LiveSeeder/blob/master/assets/seeder.png</PackageIconUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageLicenseUrl>https://github.com/koskedk/LiveSeeder/blob/master/LICENSE</PackageLicenseUrl>
     </PropertyGroup>
 
     <ItemGroup>
