@@ -42,14 +42,16 @@ steps:
     DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
 
 - task: NuGetCommand@2
-    inputs:
-      command: pack
-      versioningScheme: byPrereleaseNumber
-      majorVersion: '$(Major)'
-      minorVersion: '$(Minor)'
-      patchVersion: '$(Patch)'
+  displayName: Pack
+  inputs:
+    command: pack
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Major)'
+    minorVersion: '$(Minor)'
+    patchVersion: '$(Patch)'
 
 - task: NuGetAuthenticate@0
+  displayName: Push
   inputs:
     nuGetServiceConnections: 'nuget.org'
 - task: NuGetCommand@2
