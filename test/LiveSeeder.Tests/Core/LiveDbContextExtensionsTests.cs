@@ -57,5 +57,13 @@ namespace LiveSeeder.Tests.Core
             var cars = TestDbContext.Cars.ToList();
             Assert.False(cars.Any());
         }
+
+        // [Test]
+        public void should_Clear_By_Predicate()
+        {
+            TestDbContext.SeedClear<Car>(x=>x.Name.Contains("2")).Wait();
+            var cars = TestDbContext.Cars.ToList();
+            Assert.False(cars.Any(x=>x.Name.Contains("2")));
+        }
     }
 }

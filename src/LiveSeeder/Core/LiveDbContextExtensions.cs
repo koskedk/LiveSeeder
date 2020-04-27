@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dapper;
@@ -69,6 +71,13 @@ namespace LiveSeeder.Core
             return dbContext.Database.GetDbConnection().ExecuteAsync($"DELETE FROM {tableName}");
         }
 
+        public static Task SeedClear<T>(this DbContext dbContext,Expression<Func<T, bool>> predicate) where T : class
+        {
+            // TODO: Fix this
+            var toRemove = dbContext.Set<T>().AsNoTracking().Where(predicate).ToList();
+            return Delete(dbContext, toRemove);
+        }
+
         private static Task Insert<T>(DbContext dbContext, List<T> records) where T : class
         {
             var connection = dbContext.Database.GetDbConnection();
@@ -131,6 +140,19 @@ namespace LiveSeeder.Core
                 await connection
                     .BulkActionAsync(x =>
                         x.BulkUpdate(updates));
+        }
+        private static Task Delete<T>(DbContext dbContext, List<T> records) where T : class
+        {
+            var connection = dbContext.Database.GetDbConnection();
+
+            if (records.Any())
+            {
+                return connection
+                    .BulkActionAsync(x =>
+                        x.BulkDelete(records));
+            }
+
+            return Task.CompletedTask;
         }
 
         private static string GetTableName<T>(DbContext dbContext) where T : class
