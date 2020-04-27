@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-  - master
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -16,44 +16,44 @@ variables:
   Patch: '0'
 
 steps:
-  - task: NuGetToolInstaller@1
-    inputs:
-      versionSpec:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec:
 
-  - task: NuGetCommand@2
-    inputs:
-      command: 'restore'
-      restoreSolution: '**/*.sln'
-      feedsToUse: 'select'
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
 
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      arguments: '--configuration $(BuildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    arguments: '--configuration $(BuildConfiguration)'
 
-  - task: DotNetCoreCLI@2
-    displayName: Test
-    inputs:
-      command: test
-      projects: '**/*Tests/*.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-    env:
-      DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
-      DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+  env:
+    DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
+    DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
 
-  - task: NuGetCommand@2
-    displayName: Pack
-    inputs:
-      command: pack
-      versioningScheme: byPrereleaseNumber
-      majorVersion: '$(Major)'
-      minorVersion: '$(Minor)'
-      patchVersion: '$(Patch)'
+- task: NuGetCommand@2
+  displayName: Pack
+  inputs:
+    command: pack
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Major)'
+    minorVersion: '$(Minor)'
+    patchVersion: '$(Patch)'
 
-  - task: NuGetCommand@2
-    displayName: 'Nuget Push'
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'nuget.org'
+- task: NuGetCommand@2
+  displayName: 'Nuget Push'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget.org'
