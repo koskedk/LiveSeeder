@@ -20,27 +20,27 @@ namespace LiveSeeder.Core
             Reader = new CsvSeedReader();
         }
 
-        public static Task Add<T>(this DbContext dbContext) where T : class
+        public static Task SeedAdd<T>(this DbContext dbContext) where T : class
         {
             var records = Reader.Read<T>().ToList();
             return Insert(dbContext, records);
         }
 
-        public static Task Add<T>(this DbContext dbContext, Assembly assembly, string delimiter = ",",
+        public static Task SeedAdd<T>(this DbContext dbContext, Assembly assembly, string delimiter = ",",
             string @namespace = "Seed", string fileName = "") where T : class
         {
             var records = Reader.Read<T>(assembly, delimiter, @namespace, fileName).ToList();
             return Insert(dbContext, records);
         }
 
-        public static async Task AddOrUpdate<T>(this DbContext dbContext) where T : class
+        public static async Task SeedAddOrUpdate<T>(this DbContext dbContext) where T : class
         {
             var records = Reader.Read<T>().ToList();
 
             await InsertOrUpdate(dbContext, records);
         }
 
-        public static async Task AddOrUpdate<T>(this DbContext dbContext, Assembly assembly,
+        public static async Task SeedAddOrUpdate<T>(this DbContext dbContext, Assembly assembly,
             string delimiter = ",", string @namespace = "Seed", string fileName = "") where T : class
         {
             var records = Reader.Read<T>(assembly, delimiter, @namespace, fileName).ToList();
@@ -48,14 +48,14 @@ namespace LiveSeeder.Core
             await InsertOrUpdate(dbContext, records);
         }
 
-        public static Task Merge<T>(this DbContext dbContext) where T : class
+        public static Task SeedMerge<T>(this DbContext dbContext) where T : class
         {
             var records = Reader.Read<T>().ToList();
 
             return MergeAll(dbContext, records);
         }
 
-        public static Task Merge<T>(this DbContext dbContext, Assembly assembly,
+        public static Task SeedMerge<T>(this DbContext dbContext, Assembly assembly,
             string delimiter = ",", string @namespace = "Seed", string fileName = "") where T : class
         {
             var records = Reader.Read<T>(assembly, delimiter, @namespace, fileName).ToList();
@@ -63,7 +63,7 @@ namespace LiveSeeder.Core
             return MergeAll(dbContext, records);
         }
 
-        public static Task Clear<T>(this DbContext dbContext) where T : class
+        public static Task SeedClear<T>(this DbContext dbContext) where T : class
         {
             var tableName = GetTableName<T>(dbContext);
             return dbContext.Database.GetDbConnection().ExecuteAsync($"DELETE FROM {tableName}");
@@ -118,13 +118,9 @@ namespace LiveSeeder.Core
                 return;
 
             var connection = dbContext.Database.GetDbConnection();
-            var updates = new List<T>();
-            var inserts = new List<T>();
-
             var data = dbContext.Set<T>().AsNoTracking().ToList();
-
-            updates = records.Where(x => data.Contains(x)).ToList();
-            inserts = records.Where(x => !data.Contains(x)).ToList();
+            var updates = records.Where(x => data.Contains(x)).ToList();
+            var inserts = records.Where(x => !data.Contains(x)).ToList();
 
             if (inserts.Any())
                 await connection
