@@ -65,5 +65,14 @@ namespace LiveSeeder.Tests.Core
             var cars = TestDbContext.Cars.ToList();
             Assert.False(cars.Any(x=>x.Name.Contains("2")));
         }
+
+        [Test]
+        public void should_Add_New_Only()
+        {
+            TestDbContext.SeedNewOnly<Company>(typeof(Company).Assembly,",",@"Seed\Other","newcompany.csv").Wait();
+            var companies = TestDbContext.Companies.ToList();
+            Assert.True(companies.Any(x=>x.Name.ToLower()=="Tesla Corp".ToLower()));
+            Assert.True(companies.Any(x=>x.Name.ToLower()=="Suzuki Corp".ToLower()));
+        }
     }
 }

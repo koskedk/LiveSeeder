@@ -50,6 +50,21 @@ namespace LiveSeeder.Core
             await InsertOrUpdate(dbContext, records);
         }
 
+        public static async Task SeedNewOnly<T>(this DbContext dbContext) where T : class
+        {
+            var records = Reader.Read<T>().ToList();
+
+            await InsertNewOnly(dbContext, records);
+        }
+
+        public static async Task SeedNewOnly<T>(this DbContext dbContext, Assembly assembly,
+            string delimiter = ",", string @namespace = "Seed", string fileName = "") where T : class
+        {
+            var records = Reader.Read<T>(assembly, delimiter, @namespace, fileName).ToList();
+
+            await InsertNewOnly(dbContext, records);
+        }
+
         public static Task SeedMerge<T>(this DbContext dbContext) where T : class
         {
             var records = Reader.Read<T>().ToList();
@@ -141,6 +156,24 @@ namespace LiveSeeder.Core
                     .BulkActionAsync(x =>
                         x.BulkUpdate(updates));
         }
+
+        private static async Task InsertNewOnly<T>(DbContext dbContext, List<T> records)
+            where T : class
+        {
+            if (!records.Any())
+                return;
+
+            var connection = dbContext.Database.GetDbConnection();
+            var data = dbContext.Set<T>().AsNoTracking().ToList();
+            var newRecords = records.Where(x => !data.Contains(x)).ToList();
+
+            if (newRecords.Any())
+                await connection
+                    .BulkActionAsync(x =>
+                        x.BulkInsert(newRecords));
+
+        }
+
         private static Task Delete<T>(DbContext dbContext, List<T> records) where T : class
         {
             var connection = dbContext.Database.GetDbConnection();

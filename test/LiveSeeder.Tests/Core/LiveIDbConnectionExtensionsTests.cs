@@ -48,5 +48,14 @@ namespace LiveSeeder.Tests.Core
             var cars = TestInitializer.Connection.Query<Car>($"SELECT * FROM {nameof(Car)}");
             Assert.False(cars.Any());
         }
+
+        [Test]
+        public void should_Add_New_Only()
+        {
+            TestInitializer.Connection.SeedNewOnly<Company>(typeof(Company).Assembly,",",@"Seed\Other","newcompany.csv").Wait();
+            var companies = TestInitializer.Connection.Query<Company>($"SELECT * FROM {nameof(Company)}").ToList();
+            Assert.True(companies.Any(x=>x.Name.ToLower()=="Tesla Corp".ToLower()));
+            Assert.True(companies.Any(x=>x.Name.ToLower()=="Suzuki Corp".ToLower()));
+        }
     }
 }
