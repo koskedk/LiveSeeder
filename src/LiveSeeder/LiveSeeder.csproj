@@ -9,7 +9,7 @@
         <PackageTags>seeding;seed;seeder;dbcontext seed;idbconnection seed;database seed;efcore seeder</PackageTags>
         <PackageProjectUrl>https://github.com/koskedk/LiveSeeder</PackageProjectUrl>
         <RepositoryUrl>git://github.com/koskedk/LiveSeeder</RepositoryUrl>
-        <PackageIconUrl>https://github.com/koskedk/LiveSeeder/blob/master/assets/logo/seeder.png</PackageIconUrl>
+        <PackageIconUrl>https://github.com/koskedk/LiveSeeder/blob/master/assets/seeder.png</PackageIconUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageLicenseUrl>https://github.com/koskedk/LiveSeeder/blob/master/LICENSE</PackageLicenseUrl>
     </PropertyGroup>
