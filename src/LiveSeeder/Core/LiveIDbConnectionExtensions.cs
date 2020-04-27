@@ -7,13 +7,13 @@ using Dapper;
 using LiveSeeder.Reader;
 using Z.Dapper.Plus;
 
-namespace LiveSeeder
+namespace LiveSeeder.Core
 {
-    public static class LiveDbExtensions
+    public static class LiveIDbConnectionExtensions
     {
         private static readonly CsvSeedReader Reader;
 
-        static LiveDbExtensions()
+        static LiveIDbConnectionExtensions()
         {
             Reader = new CsvSeedReader();
         }

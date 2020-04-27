@@ -8,6 +8,7 @@ using LiveSeeder.Reader;
 using LiveSeeder.Tests.TestArtifacts;
 using LiveSeeder.Utils;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
@@ -20,7 +21,7 @@ namespace LiveSeeder.Tests
     {
         public static IServiceProvider ServiceProvider;
         public static IDbConnection Connection;
-        public static string ConnectionString;
+        public static IDbConnection ConnectionB;
         public static IConfigurationRoot Configuration;
 
         [OneTimeSetUp]
@@ -39,13 +40,26 @@ namespace LiveSeeder.Tests
             RegisterLicence();
 
             var connectionString = config.GetConnectionString("liveConnection")
-                .Replace("#dir#", dir);
-            ConnectionString = connectionString.ToOsStyle();
+                .Replace("#dir#", dir)
+                .ToOsStyle();
             Connection = new SqliteConnection(connectionString);
-            var services = new ServiceCollection()
-                .AddTransient<ISeedReader, CsvSeedReader>();
-            ServiceProvider = services.BuildServiceProvider();
 
+            var connectionStringB = config.GetConnectionString("liveConnectionB")
+                .Replace("#dir#", dir)
+                .ToOsStyle();
+            var connection = new SqliteConnection(connectionStringB);
+            ConnectionB = connection;
+            connection.Open();
+
+            var services = new ServiceCollection();
+
+            services.AddDbContext<TestDbContext>(x => x.UseSqlite(connection));
+            services.AddTransient<ISeedReader, CsvSeedReader>();
+            ServiceProvider = services.BuildServiceProvider();
+        }
+
+        public static void InitIDbConnection()
+        {
             DapperPlusManager.Entity<Car>()
                 .Key(x => x.Id)
                 .Table(nameof(Car));
@@ -61,12 +75,26 @@ namespace LiveSeeder.Tests
             DapperPlusManager.Entity<County>()
                 .Key(x=>x.Id)
                 .Table(nameof(County));
-
         }
 
-        public static void SeedData(params IEnumerable<object>[] entities)
+        public static void InitDbContext()
         {
-            Connection.BulkInsert(entities);
+            DapperPlusManager.Entity<Car>()
+                .Key(x => x.Id)
+                .Table(nameof(TestDbContext.Cars));
+
+            DapperPlusManager.Entity<TestCar>()
+                .Key(x=>x.Id)
+                .Table($"{nameof(TestDbContext.TestCars)}");
+
+            DapperPlusManager.Entity<Company>()
+                .Key(x=>x.Id)
+                .Table(nameof(TestDbContext.Companies));
+
+            DapperPlusManager.Entity<County>()
+                .Key(x=>x.Id)
+                .Table(nameof(TestDbContext.Counties));
+
         }
 
         private void RegisterLicence()
@@ -92,7 +120,7 @@ namespace LiveSeeder.Tests
         private void RemoveTestsFilesDbs()
         {
             string[] keyFiles =
-                { "seed.db"};
+                { "seed.db","seedB.db"};
             string[] keyDirs = { @"TestArtifacts/Database".ToOsStyle()};
 
             foreach (var keyDir in keyDirs)
