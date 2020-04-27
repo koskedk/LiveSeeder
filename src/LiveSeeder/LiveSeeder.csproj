@@ -9,7 +9,7 @@
         <PackageTags>seeding;seed;seeder;dbcontext seed;idbconnection seed;database seed;efcore seeder</PackageTags>
         <PackageProjectUrl>https://github.com/koskedk/LiveSeeder</PackageProjectUrl>
         <RepositoryUrl>git://github.com/koskedk/LiveSeeder</RepositoryUrl>
-        <PackageIconUrl>https://github.com/koskedk/LiveSeeder/blob/master/assets/seeder.png</PackageIconUrl>
+        <PackageIcon>seeder.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageLicenseUrl>https://github.com/koskedk/LiveSeeder/blob/master/LICENSE</PackageLicenseUrl>
     </PropertyGroup>
@@ -20,6 +20,10 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.1" />
       <PackageReference Include="Z.Dapper.Plus" Version="3.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\assets\seeder.png" Pack="true" PackagePath=""/>
     </ItemGroup>
 
 </Project>
