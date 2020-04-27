@@ -51,12 +51,14 @@ steps:
     patchVersion: '$(Patch)'
 
 - task: NuGetAuthenticate@0
-  displayName: Push
+  displayName: 'Nuget Authenticate'
   inputs:
     nuGetServiceConnections: 'nuget.org'
+
 - task: NuGetCommand@2
+  displayName: 'Nuget Push'
   inputs:
-    command: push
-    nuGetFeedType: external
-    versioningScheme: byEnvVar
-    versionEnvVar: <VersionVariableName>
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget.org'
