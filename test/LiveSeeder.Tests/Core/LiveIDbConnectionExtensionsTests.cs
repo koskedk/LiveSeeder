@@ -50,7 +50,7 @@ namespace LiveSeeder.Tests.Core
         }
 
         [Test]
-        public void should_Add_New_Only()
+        public void should_New_Only()
         {
             TestInitializer.Connection.SeedNewOnly<Company>(typeof(Company).Assembly,",",@"Seed\Other","newcompany.csv").Wait();
             var companies = TestInitializer.Connection.Query<Company>($"SELECT * FROM {nameof(Company)}").ToList();

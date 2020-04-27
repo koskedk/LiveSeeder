@@ -19,11 +19,11 @@
       <PackageReference Include="Dapper" Version="2.0.35" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.1" />
-      <PackageReference Include="Z.Dapper.Plus" Version="3.0.5" />
+      <PackageReference Include="Z.Dapper.Plus" Version="3.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="..\..\assets\seeder.png" Pack="true" PackagePath=""/>
+      <None Include="..\..\assets\seeder.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>

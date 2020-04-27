@@ -28,7 +28,7 @@ namespace LiveSeeder.Tests.TestArtifacts
 
         public override int GetHashCode()
         {
-            return Id;
+            return Id.GetHashCode();
         }
     }
 }
