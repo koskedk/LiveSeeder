@@ -47,6 +47,23 @@ namespace LiveSeeder.Core
             await InsertOrUpdate(connection, records, tableName);
         }
 
+        public static async Task SeedNewOnly<T>(this IDbConnection connection, string table = "") where T : class
+        {
+            var tableName = string.IsNullOrWhiteSpace(table) ? typeof(T).Name : table;
+            var records = Reader.Read<T>().ToList();
+
+            await InsertNewOnly(connection,records, tableName);
+        }
+
+        public static async Task SeedNewOnly<T>(this IDbConnection connection, Assembly assembly,
+            string delimiter = ",", string @namespace = "Seed", string fileName = "", string table = "") where T : class
+        {
+            var tableName = string.IsNullOrWhiteSpace(table) ? typeof(T).Name : table;
+            var records = Reader.Read<T>(assembly, delimiter, @namespace, fileName).ToList();
+
+            await InsertNewOnly(connection, records, tableName);
+        }
+
         public static Task SeedMerge<T>(this IDbConnection connection) where T : class
         {
             var records = Reader.Read<T>().ToList();
@@ -122,6 +139,22 @@ namespace LiveSeeder.Core
                 await connection
                     .BulkActionAsync(x =>
                         x.BulkUpdate(updates));
+        }
+
+        private static async Task InsertNewOnly<T>(IDbConnection connection, List<T> records, string tableName)
+            where T : class
+        {
+            if (!records.Any())
+                return;
+
+            var data = connection.Query<T>($"SELECT * FROM {tableName}").ToList();
+            var newRecords = records.Where(x => !data.Contains(x)).ToList();
+
+            if (newRecords.Any())
+                await connection
+                    .BulkActionAsync(x =>
+                        x.BulkInsert(newRecords));
+
         }
     }
 }

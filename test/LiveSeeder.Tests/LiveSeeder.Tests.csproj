@@ -34,6 +34,7 @@
       <None Remove="Seed\Car.csv" />
       <EmbeddedResource Include="Seed\Car.csv" />
       <None Remove="Seed\TestCar.csv" />
+      <EmbeddedResource Include="Seed\Other\newcompany.csv" />
       <EmbeddedResource Include="Seed\TestCar.csv" />
       <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
