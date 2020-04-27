@@ -1,13 +1,19 @@
 using System.Linq;
 using Dapper;
+using LiveSeeder.Core;
 using LiveSeeder.Tests.TestArtifacts;
 using NUnit.Framework;
 
-namespace LiveSeeder.Tests
+namespace LiveSeeder.Tests.Core
 {
     [TestFixture]
-    public class LiveDbExtensionsTests
+    public class LiveIDbConnectionExtensionsTests
     {
+        [OneTimeSetUp]
+        public void Init()
+        {
+            TestInitializer.InitIDbConnection();
+        }
         [Test]
         public void should_Add()
         {
@@ -30,17 +36,17 @@ namespace LiveSeeder.Tests
         public void should_Merge()
         {
             TestInitializer.Connection.Merge<County>(typeof(County).Assembly).Wait();
-            var companies = TestInitializer.Connection.Query<County>($"SELECT * FROM {nameof(County)}").ToList();
-            Assert.AreEqual("Nairobi", companies.First(x => x.Id == 47).Name);
-            Assert.AreEqual("Bomet", companies.First(x => x.Id == 22).Name);
+            var counties = TestInitializer.Connection.Query<County>($"SELECT * FROM {nameof(County)}").ToList();
+            Assert.AreEqual("Nairobi", counties.First(x => x.Id == 47).Name);
+            Assert.AreEqual("Bomet", counties.First(x => x.Id == 22).Name);
         }
 
         [Test]
         public void should_Clear()
         {
             TestInitializer.Connection.Clear<Car>().Wait();
-            var testCars = TestInitializer.Connection.Query<Car>($"SELECT * FROM {nameof(Car)}");
-            Assert.False(testCars.Any());
+            var cars = TestInitializer.Connection.Query<Car>($"SELECT * FROM {nameof(Car)}");
+            Assert.False(cars.Any());
         }
     }
 }
