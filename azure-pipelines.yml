@@ -50,11 +50,6 @@ steps:
     minorVersion: '$(Minor)'
     patchVersion: '$(Patch)'
 
-- task: NuGetAuthenticate@0
-  displayName: 'Nuget Authenticate'
-  inputs:
-    nuGetServiceConnections: 'nuget.org'
-
 - task: NuGetCommand@2
   displayName: 'Nuget Push'
   inputs:
