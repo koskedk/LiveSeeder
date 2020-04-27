@@ -36,7 +36,6 @@ steps:
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
   env:
     DAPPER_LICENSENAME: $(DAPPER_LICENSENAME)
     DAPPER_LICENSEKEY: $(DAPPER_LICENSEKEY)
@@ -57,3 +56,4 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget.org'
+  enabled: false
